@@ -64,7 +64,7 @@ export const EnviarPropuesta = () => {
       const formData = {
         to_name: "Influreal",
         from_name: "Web de Influreal",
-        message: `https://congenial-journey-45wpvqwjr4xh7vwx-3000.app.github.dev/${selectedList}/${selectedProposal}`,
+        message: `https://sample-service-name-a6yi.onrender.com/${selectedList}/${selectedProposal}`,
       };
       const respuesta = await actions.sendEmail(formData);
       if (respuesta.success) {
