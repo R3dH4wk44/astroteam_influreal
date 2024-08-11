@@ -122,13 +122,6 @@ const Home = () => {
             <a href="#" className="font-semibold text-sm">
               Filtros populares
             </a>
-            <a
-              href="#"
-              className="text-accent-two text-sm"
-              onClick={actions.clearFilters}
-            >
-              Borrar filtros
-            </a>
           </div>
 
           <div className="overflow-x-auto">
@@ -183,7 +176,7 @@ const Home = () => {
               </div>
 
               <div className="filter-item flex-shrink-0 w-full md:w-1/2 lg:w-1/4 flex flex-col p-2 mb-2">
-                <label className="filter-label">Sexo</label>
+                <label className="filter-label">Sexo al que se dirige</label>
                 <select
                   className="filter-select"
                   name="sexo"
@@ -207,11 +200,18 @@ const Home = () => {
                 : "Mostrar más filtros"}
             </button>
           </div>
+          <a
+              href="#"
+              className="text-accent-two text-sm"
+              onClick={actions.clearFilters}
+            >
+              Borrar filtros
+            </a>
 
           {showMoreFilters && (
             <div className={`slide-up-menu ${showMoreFilters ? "open" : ""}`}>
               <div className="filter-item w-full">
-                <label className="filter-label">Países</label>
+                <label className="filter-label">Países de alcance</label>
                 <select
                   className="filter-select w-full"
                   name="paisesObjetivo"
@@ -280,7 +280,7 @@ const Home = () => {
               </div>
 
               <div className="filter-item w-full">
-                <label className="filter-label">Edad Objetivo</label>
+                <label className="filter-label">Edad público objetivo</label>
                 <select
                   className="filter-select w-full"
                   name="edadObjetivo"
@@ -299,27 +299,13 @@ const Home = () => {
                 </select>
               </div>
 
-              <div className="filter-item w-full">
-                <label className="filter-label">Estilo de Vida</label>
-                <select
-                  className="filter-select w-full"
-                  name="estiloDeVida"
-                  onChange={handleFilterChange}
-                >
-                  <option value="">Todos</option>
-                  <option value="fitness">Fitness</option>
-                  <option value="foodie">Foodie</option>
-                  <option value="vegano">Vegano</option>
-                  <option value="gamer">Gamer</option>
-                </select>
-              </div>
-
+            
               <div className="w-full mt-4 flex justify-center">
                 <button
                   className="close-menu-button boton-filtros text-white"
                   onClick={() => setShowMoreFilters(false)}
                 >
-                  Cerrar menú
+                  Aplicar
                 </button>
               </div>
             </div>

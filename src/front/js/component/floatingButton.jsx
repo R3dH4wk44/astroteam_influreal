@@ -15,7 +15,7 @@ const FloatingButton = () => {
         className="text-white px-6 py-2 nueva-propuesta"
         onClick={handleClick}
       >
-        Nueva Propuesta
+        Enviar propuesta
       </button>
       <FloatingEnviarPropuesta isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
