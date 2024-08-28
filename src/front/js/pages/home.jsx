@@ -5,6 +5,7 @@ import InfluencerCard from "../component/influencerCard.jsx";
 import { Context } from "../store/appContext.js";
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
+import Select from 'react-select'
 
 import "../../styles/tailwind.css";
 import "../../styles/index.css";
@@ -13,10 +14,6 @@ import "../../styles/homeMaria.css";
 const Home = () => {
   const { store, actions } = useContext(Context);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearch = (query) => {
-    setSearchQuery(query.toLowerCase());
-  };
 
   const [filters, setFilters] = useState({
     seguidores: 0,
@@ -29,7 +26,45 @@ const Home = () => {
     sexo: "",
   });
 
-  const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [showMoreFilters, setShowMoreFilters] = useState(false); // Definición de showMoreFilters
+
+  const handleSearch = (query) => {
+    setSearchQuery(query.toLowerCase());
+  };
+
+  const handleFilterChange = (event) => {
+    const { name, value } = event;
+    if (
+      name === "categoria" ||
+      name === "edadObjetivo" ||
+      name === "paisesObjetivo"
+    ) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: value.map((option) => option.value),
+      }));
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: value,
+      }));
+    }
+  };
+
+  const clearAllFilters = () => {
+    const initialFilters = {
+      seguidores: 0,
+      engagement: 0,
+      redSocial: "",
+      categoria: [],
+      estiloDeVida: "",
+      edadObjetivo: [],
+      paisesObjetivo: [],
+      sexo: "",
+    };
+    setFilters(initialFilters);
+    actions.clearFilters();
+  };
 
   const filteredInfluencers = store.filteredInfluencers.filter(
     (influencer) =>
@@ -46,28 +81,6 @@ const Home = () => {
         filters.paisesObjetivo.includes(influencer.paisObjetivo)) &&
       (filters.sexo === "" || influencer.sexo === filters.sexo)
   );
-
-  const handleFilterChange = (event) => {
-    const { name, value, selectedOptions } = event.target;
-    if (
-      name === "categoria" ||
-      name === "edadObjetivo" ||
-      name === "paisesObjetivo"
-    ) {
-      const values = Array.from(selectedOptions, (option) => option.value);
-      actions.setFilter(name, values);
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: values,
-      }));
-    } else {
-      actions.setFilter(name, value);
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [name]: value,
-      }));
-    }
-  };
 
   const toggleInfluencerFromList = async (id) => {
     if (store.singleList) {
@@ -139,7 +152,144 @@ const Home = () => {
                 </select>
               </div>
 
-              <div className="filter-item flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4 flex flex-col p-2 mb-2">
+                            <div className="filter-item w-full" style={{ position: 'relative', zIndex: 1000 }}>
+                
+  <label className="filter-label">Categoría</label>
+  <Select
+    isMulti
+    name="categoria"
+    value={filters.categoria.map((value) => ({
+      value,
+      label: value,
+    }))}
+    onChange={(value) => handleFilterChange({ name: "categoria", value })}
+    options={[
+            { value: "lifestyle", label: "Lifestyle" },
+            { value: "marketing", label: "Marketing" },
+            { value: "negocios", label: "Negocios" },
+            { value: "emprendimiento", label: "Emprendimiento" },
+            { value: "viajes", label: "Viajes" },
+            { value: "comida", label: "Comida" },
+            { value: "belleza", label: "Belleza" },
+            { value: "salud", label: "Salud" },
+            { value: "fitness", label: "Fitness" },
+            { value: "moda", label: "Moda" },
+            { value: "automoviles", label: "Automóviles" },
+            { value: "tecnologia", label: "Tecnología" },
+            { value: "finanzas", label: "Finanzas" },
+            { value: "educacion", label: "Educación" },
+            { value: "maternidad", label: "Maternidad" },
+            { value: "medioAmbienteYSostenibilidad", label: "Medio ambiente y sostenibilidad" },
+            { value: "animales", label: "Animales" },
+            { value: "entretenimiento", label: "Entretenimiento" },
+            { value: "libros", label: "Libros" },
+            { value: "musica", label: "Música" },
+            { value: "politica", label: "Política" },
+            { value: "actualidad", label: "Actualidad" },
+            { value: "otros", label: "Otros" },
+            
+          ]}
+          styles={{
+            menu: (provided) => ({
+              ...provided,
+              zIndex: 10000,
+            }),
+          }}
+          menuPortalTarget={document.body} 
+        />
+      </div>
+               
+  
+      <div className="filter-item w-full">
+  <label className="filter-label">Países de alcance</label>
+  <Select
+    isMulti
+    name="paisesObjetivo"
+    value={filters.paisesObjetivo.map((value) => ({
+      value,
+      label: value,
+    }))}
+    onChange={(value) => handleFilterChange({ name: "paisesObjetivo", value })}
+    options={[
+            { value: "España", label: "España" },
+            { value: "México", label: "México" },
+            { value: "Argentina", label: "Argentina" },
+            { value: "Bolivia", label: "Bolivia" },
+            { value: "Chile", label: "Chile" },
+            { value: "Colombia", label: "Colombia" },
+            { value: "Costa Rica", label: "Costa Rica" },
+            { value: "Cuba", label: "Cuba" },
+            { value: "Ecuador", label: "Ecuador" },
+            { value: "El Salvador", label: "El Salvador" },
+            { value: "Guatemala", label: "Guatemala" },
+            { value: "Honduras", label: "Honduras" },
+            { value: "Nicaragua", label: "Nicaragua" },
+            { value: "Panamá", label: "Panamá" },
+            { value: "Perú", label: "Perú" },
+            { value: "República Dominicana", label: "República Dominicana" },
+            { value: "Uruguay", label: "Uruguay" },
+            { value: "Venezuela", label: "Venezuela" },
+            { value: "Otro", label: "Otro" },
+           
+          ]}
+          styles={{
+            menu: (provided) => ({
+              ...provided,
+              zIndex: 10000,
+            }),
+          }}
+          menuPortalTarget={document.body} 
+        />
+      </div>
+
+
+
+ 
+
+
+            </div>
+          </div>
+
+          <div className="w-full md:w-1/2 lg:w-1/3">
+            <button
+              className="show-more-button boton-filtros text-white w-full md:w-auto"
+              onClick={() => setShowMoreFilters(!showMoreFilters)}
+            >
+              {showMoreFilters
+                ? "Mostrar menos filtros"
+                : "Mostrar más filtros"}
+            </button>
+          </div>
+          <a href="#" className="text-accent-two text-sm" onClick={clearAllFilters}>
+          Borrar filtros
+        </a>
+
+          {showMoreFilters && (
+            <div className={`slide-up-menu ${showMoreFilters ? "open" : ""}`}>
+               <div className="filter-item w-full">
+  <label className="filter-label">Edad público objetivo</label>
+  <Select
+    isMulti
+    name="edadObjetivo"
+    value={filters.edadObjetivo.map((value) => ({
+      value,
+      label: value,
+    }))}
+    onChange={(value) => handleFilterChange({ name: "edadObjetivo", value })}
+    options={[
+            { value: "0-3", label: "Hasta 3 años" },
+            { value: "3-12", label: "3 a 12 años" },
+            { value: "12-18", label: "12 a 18 años" },
+            { value: "18-25", label: "18 a 25 años" },
+            { value: "25-35", label: "25 a 35 años" },
+            { value: "35-45", label: "35 a 45 años" },
+            { value: "45-55", label: "45 a 55 años" },
+            { value: "+55", label: "+55 años" },
+          ]}
+        />
+      </div>
+
+              <div className="filter-item w-full">
                 <label className="filter-label">Engagement</label>
                 <div className="flex items-center">
                   <input
@@ -157,7 +307,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="filter-item flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4 flex flex-col p-2 mb-2">
+              <div className="filter-item  w-full">
                 <label className="filter-label">Nº de seguidores</label>
                 <div className="flex items-center">
                   <input
@@ -185,117 +335,6 @@ const Home = () => {
                   <option value="">Todos</option>
                   <option value="hombre">Hombre</option>
                   <option value="mujer">Mujer</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="w-full md:w-1/2 lg:w-1/3">
-            <button
-              className="show-more-button boton-filtros text-white w-full md:w-auto"
-              onClick={() => setShowMoreFilters(!showMoreFilters)}
-            >
-              {showMoreFilters
-                ? "Mostrar menos filtros"
-                : "Mostrar más filtros"}
-            </button>
-          </div>
-          <a
-              href="#"
-              className="text-accent-two text-sm"
-              onClick={actions.clearFilters}
-            >
-              Borrar filtros
-            </a>
-
-          {showMoreFilters && (
-            <div className={`slide-up-menu ${showMoreFilters ? "open" : ""}`}>
-              <div className="filter-item w-full">
-                <label className="filter-label">Países de alcance</label>
-                <select
-                  className="filter-select w-full"
-                  name="paisesObjetivo"
-                  multiple
-                  onChange={handleFilterChange}
-                >
-                  <option value="España">España</option>
-                  <option value="México">México</option>
-                  <option value="Argentina">Argentina</option>
-                  <option value="Bolivia">Bolivia</option>
-                  <option value="Chile">Chile</option>
-                  <option value="Colombia">Colombia</option>
-                  <option value="Costa Rica">Costa Rica</option>
-                  <option value="Cuba">Cuba</option>
-                  <option value="Ecuador">Ecuador</option>
-                  <option value="El Salvador">El Salvador</option>
-                  <option value="Guatemala">Guatemala</option>
-                  <option value="Honduras">Honduras</option>
-                  <option value="Nicaragua">Nicaragua</option>
-                  <option value="Panamá">Panamá</option>
-                  <option value="Perú">Perú</option>
-                  <option value="República Dominicana">
-                    República Dominicana
-                  </option>
-                  <option value="Uruguay">Uruguay</option>
-                  <option value="Venezuela">Venezuela</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>
-
-              <div className="filter-item w-full">
-                <label className="filter-label">Categoría</label>
-                <select
-                  className="filter-select w-full"
-                  name="categoria"
-                  multiple
-                  onChange={handleFilterChange}
-                  value={filters.categoria}
-                >
-                  <option value="lifestyle">Lifestyle</option>
-                  <option value="marketing">Marketing</option>
-                  <option value="negocios">Negocios</option>
-                  <option value="emprendimiento">Emprendimiento</option>
-                  <option value="viajes">Viajes</option>
-                  <option value="comida">Comida</option>
-                  <option value="fitness">Fitness</option>
-                  <option value="belleza">Belleza</option>
-                  <option value="salud">Salud</option>
-                  <option value="moda">Moda</option>
-                  <option value="automoviles">Automóviles</option>
-                  <option value="tecnologia">Tecnología</option>
-                  <option value="finanzas">Finanzas</option>
-                  <option value="educacion">Educación</option>
-                  <option value="maternidad">Maternidad</option>
-                  <option value="medioAmbienteYSostenibilidad">
-                    Medio ambiente y sostenibilidad
-                  </option>
-                  <option value="animales">Animales</option>
-                  <option value="entretenimiento">Entretenimiento</option>
-                  <option value="libros">Libros</option>
-                  <option value="musica">Música</option>
-                  <option value="politica">Política</option>
-                  <option value="actualidad">Actualidad</option>
-                  <option value="otros">Otros</option>
-                </select>
-              </div>
-
-              <div className="filter-item w-full">
-                <label className="filter-label">Edad público objetivo</label>
-                <select
-                  className="filter-select w-full"
-                  name="edadObjetivo"
-                  multiple
-                  onChange={handleFilterChange}
-                >
-                  <option value="">Todas</option>
-                  <option value="0-3">Hasta 3 años</option>
-                  <option value="3-12">3 a 12 años</option>
-                  <option value="12-18">12 a 18 años</option>
-                  <option value="18-25">18 a 25 años</option>
-                  <option value="25-35">25 a 35 años</option>
-                  <option value="35-45">35 a 45 años</option>
-                  <option value="45-55">45 a 55 años</option>
-                  <option value="55+">Más de 55 años</option>
                 </select>
               </div>
 

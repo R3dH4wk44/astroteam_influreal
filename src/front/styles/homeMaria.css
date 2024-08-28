@@ -152,7 +152,7 @@ body {
   box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.1);
   max-height: calc(100vh - 100px);
   overflow-y: auto;
-  z-index: 999;
+  z-index: 999; /* Un valor más bajo para que esté debajo del menú de selección */
   transform: translateY(100%);
   transition: transform 0.3s ease;
 }
@@ -176,7 +176,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 998;
+  z-index: 998; /* Un valor más bajo para que esté debajo del menú de selección */
   display: none;
 }
 
@@ -214,4 +214,13 @@ body {
   .filter-item.full-width {
     width: 100%;
   }
+}
+.select-menu-container {
+  position: relative;
+  z-index: 10000; /* Un valor alto para asegurar que esté sobre otros elementos */
+}
+
+/* Asegúrate de que el menú desplegable del select tenga un z-index alto */
+.react-select__menu {
+  z-index: 10000; /* Asegúrate de que el menú esté sobre otros elementos */
 }
